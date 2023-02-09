@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd6f6abfe8fa62f4cac9a82cdab9af92, type: 3}
+  m_Name: TestPack
+  m_EditorClassIdentifier: 
+  packName: Test pack
+  packType: Packs
+  itemsInPack: 3
+  packCoinCost: 5000
+  packMoneyCost: 250
+  woogies:
+  - {fileID: 11400000, guid: 24067264213db4c42a538db8c49a79d0, type: 2}
+  - {fileID: 11400000, guid: 8cd909640c325424d8105f285465fcae, type: 2}
+  - {fileID: 11400000, guid: 6343afe5699400d44acc5e2f69f41489, type: 2}
+  attacks: []
