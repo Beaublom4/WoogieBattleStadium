@@ -8,6 +8,8 @@ public class PackScrObj : ScriptableObject
     public string packName;
     public string packType;
     public int itemsInPack;
+    public int minLevel, maxLevel;
+    public int shinyChance = 4069;
     [Space]
     public int packCoinCost;
     public int packMoneyCost;

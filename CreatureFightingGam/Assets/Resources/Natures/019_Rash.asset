@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d45a9e34a908cf49bcbe27acde13468, type: 3}
-  m_Name: Basic
+  m_Name: 019_Rash
   m_EditorClassIdentifier: 
-  natureName: Basic
-  health: 0
-  attack: 0
-  defence: 0
-  sp_att: 0
-  sp_def: 0
-  speed: 0
+  natureName: Rash
+  attack: 1
+  defence: 1
+  sp_att: 1.1
+  sp_def: 0.9
+  speed: 1

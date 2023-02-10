@@ -10,25 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5abe6a5f27ab6b48aa8e7fab7fab37d, type: 3}
-  m_Name: 007_Bubbeet
+  m_Name: 007_Phaga
   m_EditorClassIdentifier: 
-  number: 7
   woogieName: Bubbeet
   icon: {fileID: 21300000, guid: 0f061b4bd0275bc4eb60f2af31e7375a, type: 3}
   typing:
   - {fileID: 11400000, guid: fe4754d836d870c4bb22c9cf7ea94ea0, type: 2}
-  natures:
+  possibleNatures:
   - {fileID: 11400000, guid: aedbec1744746e747b088101d3958146, type: 2}
-  ability: 0
-  stats:
-    hp: 0
-    att: 0
-    def: 0
-    s_att: 0
-    s_def: 0
-    spd: 0
+  - {fileID: 11400000, guid: b6f531d106c1b6444ab213e80f413e75, type: 2}
+  - {fileID: 11400000, guid: 99a81622dd44b9541ac0b5b776f74f80, type: 2}
+  - {fileID: 11400000, guid: b4d7d74a7cf9b5c40a2f77c27ce03a35, type: 2}
+  - {fileID: 11400000, guid: 422e3f38ca8ec814988b951886ee0395, type: 2}
+  - {fileID: 11400000, guid: dd48a2c9589424d4e8f932ddcdc773d7, type: 2}
+  possibleAbilities: 0000000001000000
+  baseStats:
+    hp: 1
+    att: 2
+    def: 3
+    s_att: 4
+    s_def: 5
+    spd: 6
   levelCurve: {fileID: 11400000, guid: b9b23cdd298b66544a8f50dcc78feb9e, type: 2}
-  evolveLevel: 16
+  evolveLevel: 31
+  evolution: {fileID: 0}
   attackUnlocks:
   - levelUnlocked: 0
-    attack: {fileID: 11400000, guid: c8795a5a083de50428313c4733851d5d, type: 2}
+    possibleAttack:
+    - {fileID: 11400000, guid: c8795a5a083de50428313c4733851d5d, type: 2}

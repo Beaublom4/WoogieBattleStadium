@@ -8,6 +8,7 @@ public class AttackScrObj : ScriptableObject
 {
     public string attackName;
     public string attackEffect;
+    public GameObject vfx;
     public TypingScrObj type;
     public int uses;
     public int damage;
