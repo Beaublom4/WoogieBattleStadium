@@ -76,7 +76,7 @@ public class ProfileManager : MonoBehaviour
         account.accountCoins = coins;
         account.accountMoney = money;
 
-        string json = JsonUtility.ToJson(account);
+        string json = JsonUtility.ToJson(account, true);
         SavingUtils.WriteToFile("Profile.json", json, "/Account");
     }
     public void AddCoins(int _coins)

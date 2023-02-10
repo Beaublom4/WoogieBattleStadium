@@ -21,5 +21,6 @@ public class Abilities : MonoBehaviour
 }
 public enum Ability
 {
+    basic,
     intimidate
 }

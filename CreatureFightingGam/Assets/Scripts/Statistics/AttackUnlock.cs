@@ -2,5 +2,5 @@
 public struct AttackUnlock
 {
     public int levelUnlocked;
-    public AttackScrObj attack;
+    public AttackScrObj[] possibleAttack;
 }

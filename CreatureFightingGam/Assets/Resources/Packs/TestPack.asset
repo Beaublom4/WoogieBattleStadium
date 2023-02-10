@@ -15,10 +15,13 @@ MonoBehaviour:
   packName: Test pack
   packType: Packs
   itemsInPack: 3
+  minLevel: 1
+  maxLevel: 1
+  shinyChance: 4069
   packCoinCost: 5000
   packMoneyCost: 250
   woogies:
   - {fileID: 11400000, guid: 24067264213db4c42a538db8c49a79d0, type: 2}
   - {fileID: 11400000, guid: 8cd909640c325424d8105f285465fcae, type: 2}
-  - {fileID: 11400000, guid: 6343afe5699400d44acc5e2f69f41489, type: 2}
+  - {fileID: 11400000, guid: 922f27c4a241089478f8a17ba592d621, type: 2}
   attacks: []

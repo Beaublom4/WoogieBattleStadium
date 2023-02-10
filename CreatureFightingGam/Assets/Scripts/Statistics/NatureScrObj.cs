@@ -8,10 +8,9 @@ public class NatureScrObj : ScriptableObject
 {
     public string natureName;
     //stats
-    public int health;
-    public int attack;
-    public int defence;
-    public int sp_att;
-    public int sp_def;
-    public int speed;
+    public float attack = 1;
+    public float defence = 1;
+    public float sp_att = 1;
+    public float sp_def = 1;
+    public float speed = 1;
 }

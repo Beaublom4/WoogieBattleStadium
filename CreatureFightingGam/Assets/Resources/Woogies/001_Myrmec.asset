@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5abe6a5f27ab6b48aa8e7fab7fab37d, type: 3}
+  m_Name: 001_Myrmec
+  m_EditorClassIdentifier: 
+  woogieName: Myrmec
+  icon: {fileID: 21300000, guid: 3a0c527d7f890d64a9b56b086e6e766a, type: 3}
+  typing:
+  - {fileID: 11400000, guid: 779209cc51538774296b2467db4cda34, type: 2}
+  possibleNatures:
+  - {fileID: 11400000, guid: aedbec1744746e747b088101d3958146, type: 2}
+  - {fileID: 11400000, guid: b6f531d106c1b6444ab213e80f413e75, type: 2}
+  - {fileID: 11400000, guid: 99a81622dd44b9541ac0b5b776f74f80, type: 2}
+  - {fileID: 11400000, guid: b4d7d74a7cf9b5c40a2f77c27ce03a35, type: 2}
+  - {fileID: 11400000, guid: 422e3f38ca8ec814988b951886ee0395, type: 2}
+  - {fileID: 11400000, guid: dd48a2c9589424d4e8f932ddcdc773d7, type: 2}
+  possibleAbilities: 0000000001000000
+  baseStats:
+    hp: 1
+    att: 2
+    def: 3
+    s_att: 4
+    s_def: 5
+    spd: 6
+  levelCurve: {fileID: 11400000, guid: b9b23cdd298b66544a8f50dcc78feb9e, type: 2}
+  evolveLevel: 31
+  evolution: {fileID: 11400000, guid: 6492ccccfe774c942b021918864759a3, type: 2}
+  attackUnlocks:
+  - levelUnlocked: 0
+    possibleAttack:
+    - {fileID: 11400000, guid: c8795a5a083de50428313c4733851d5d, type: 2}

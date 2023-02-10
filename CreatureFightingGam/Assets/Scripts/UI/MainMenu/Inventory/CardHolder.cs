@@ -13,19 +13,21 @@ public class CardHolder : MonoBehaviour
     public GameObject typingPrefab;
     public Transform typingHolder;
 
-    public void SetUp(WoogieScrObj woogie)
+    public void SetUp(WoogieSave woogieSave, WoogieScrObj woogieScrObj)
     {
-        iconImage.sprite = woogie.icon;
-        nameText.text = woogie.woogieName;
+        iconImage.sprite = woogieScrObj.icon;
+        nameText.text = woogieScrObj.woogieName;
         statsText.text = "Stats";
         statsText.text += "<br>";
-        statsText.text += "<br>Attack: " + woogie.stats.att;
-        statsText.text += "<br>Defence: " + woogie.stats.def;
-        statsText.text += "<br>Sp. Att: " + woogie.stats.s_att;
-        statsText.text += "<br>Sp. Def: " + woogie.stats.s_def;
-        statsText.text += "<br>Speed: " + woogie.stats.spd;
+        statsText.text += "<br>Health: " + CalculationUtils.HpCalculation(woogieScrObj.baseStats.hp, woogieSave.individualStats.hp, woogieSave.EffortStats.hp, woogieSave.currentLevel);
+        NatureScrObj nature = Resources.Load<NatureScrObj>("Natures/" + woogieSave.natureScrObjName);
+        statsText.text += "<br>Attack: " + CalculationUtils.StatCaclulation(woogieScrObj.baseStats.att, woogieSave.individualStats.att, woogieSave.EffortStats.att, woogieSave.currentLevel, nature.attack);
+        statsText.text += "<br>Defence: " + CalculationUtils.StatCaclulation(woogieScrObj.baseStats.def, woogieSave.individualStats.att, woogieSave.EffortStats.att, woogieSave.currentLevel, nature.defence);
+        statsText.text += "<br>Sp. Att: " + CalculationUtils.StatCaclulation(woogieScrObj.baseStats.s_att, woogieSave.individualStats.att, woogieSave.EffortStats.att, woogieSave.currentLevel, nature.sp_att);
+        statsText.text += "<br>Sp. Def: " + CalculationUtils.StatCaclulation(woogieScrObj.baseStats.s_def, woogieSave.individualStats.att, woogieSave.EffortStats.att, woogieSave.currentLevel, nature.sp_def);
+        statsText.text += "<br>Speed: " + CalculationUtils.StatCaclulation(woogieScrObj.baseStats.spd, woogieSave.individualStats.att, woogieSave.EffortStats.att, woogieSave.currentLevel, nature.speed);
 
-        foreach(TypingScrObj type in woogie.typing)
+        foreach (TypingScrObj type in woogieScrObj.typing)
         {
             GameObject newType = Instantiate(typingPrefab, typingHolder);
             newType.GetComponentInChildren<TMP_Text>().text = type.typeName;

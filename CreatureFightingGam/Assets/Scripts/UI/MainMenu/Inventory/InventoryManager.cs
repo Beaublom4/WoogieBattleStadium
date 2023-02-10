@@ -14,17 +14,19 @@ namespace Scripts.UI.MainMenu.Inventory
         [Space]
         public InventoryHolderType[] menus;
         public GameObject[] sideBars;
+        private int currentMenu;
         public Color normalButtonColor, selectedButtonColor;
         public Transform menuButtonHolder;
 
         [Header("Woogies")]
         public Transform woogieHolder;
         public GameObject woogieDataHolderPrefab;
-        private const string glyphs = "abcdefghijklmnopqrstovwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
-        public WoogieData selectedData;
+        public WoogieSave selectedWoogie;
         [Header("stats")]
+        public Transform typingHolder;
+        public GameObject typingPrefab;
         public TMP_Text nature;
-        public TMP_Text stats;
+        public TMP_Text statsText;
         public TMP_Text ability, abilityDiscription;
 
         private void Awake()
@@ -38,6 +40,9 @@ namespace Scripts.UI.MainMenu.Inventory
         }
         public void OnEnable()
         {
+            selectedWoogie = null;
+            foreach (GameObject s in sideBars)
+                s.SetActive(false);
             foreach(Transform t in woogieHolder)
             {
                 Destroy(t.gameObject);
@@ -69,13 +74,14 @@ namespace Scripts.UI.MainMenu.Inventory
             {
                 if (menus[i].holderType == menuType)
                 {
+                    currentMenu = i;
                     menus[i].gameObject.SetActive(true);
-                    sideBars[i].gameObject.SetActive(true);
+                    sideBars[i].SetActive(true);
                 }
                 else
                 {
                     menus[i].gameObject.SetActive(false);
-                    sideBars[i].gameObject.SetActive(false);
+                    sideBars[i].SetActive(false);
                 }
             }
         }
@@ -89,65 +95,50 @@ namespace Scripts.UI.MainMenu.Inventory
             }
         }
 
-        public void SelectData(WoogieData data)
+        public void SelectData(WoogieSave woogie)
         {
-            selectedData = data;
+            sideBars[currentMenu].SetActive(true);
+            selectedWoogie = woogie;
+            WoogieScrObj woogieScrObj = Resources.Load<WoogieScrObj>("Woogies/" + woogie.woogieScrObjName);
 
-            nature.text = selectedData.nature.natureName;
-            stats.text = $"{selectedData.health} <br> {selectedData.attack} <br> {selectedData.defence} <br> {selectedData.sp_attack} <br> {selectedData.sp_defence} <br> {selectedData.speed}";
-            ability.text = "Ability: " + selectedData.woogie.ability;
+            //Display Type
+            foreach (Transform t in typingHolder)
+                Destroy(t.gameObject);
+            foreach(TypingScrObj type in woogieScrObj.typing)
+            {
+                GameObject newType = Instantiate(typingPrefab, typingHolder);
+                newType.GetComponentInChildren<TMP_Text>().text = type.typeName;
+                newType.GetComponent<Image>().color = type.typeColor;
+            }
+            //Display nature
+            NatureScrObj natureScrObj = Resources.Load<NatureScrObj>("Natures/" + woogie.natureScrObjName);
+            nature.text = natureScrObj.natureName;
+            //Display stats from selected woogie
+            statsText.text = "<br>Health: " + CalculationUtils.HpCalculation(woogieScrObj.baseStats.hp, woogie.individualStats.hp, woogie.EffortStats.hp, woogie.currentLevel);
+            statsText.text += "<br>Attack: " + CalculationUtils.StatCaclulation(woogieScrObj.baseStats.att, woogie.individualStats.att, woogie.EffortStats.att, woogie.currentLevel, natureScrObj.attack);
+            statsText.text += "<br>Defence: " + CalculationUtils.StatCaclulation(woogieScrObj.baseStats.def, woogie.individualStats.att, woogie.EffortStats.att, woogie.currentLevel, natureScrObj.defence);
+            statsText.text += "<br>Sp. Att: " + CalculationUtils.StatCaclulation(woogieScrObj.baseStats.s_att, woogie.individualStats.att, woogie.EffortStats.att, woogie.currentLevel, natureScrObj.sp_att);
+            statsText.text += "<br>Sp. Def: " + CalculationUtils.StatCaclulation(woogieScrObj.baseStats.s_def, woogie.individualStats.att, woogie.EffortStats.att, woogie.currentLevel, natureScrObj.sp_def);
+            statsText.text += "<br>Speed: " + CalculationUtils.StatCaclulation(woogieScrObj.baseStats.spd, woogie.individualStats.att, woogie.EffortStats.att, woogie.currentLevel, natureScrObj.speed);
+            //Display Ability
+            ability.text = "Ability: " + woogie.abilitie;
             abilityDiscription.text = "Ability discription";
         }
 
-        public void SaveNewWoogie(WoogieScrObj woogie)
+        public void SaveWoogie(WoogieSave woogie)
         {
-            WoogieData newData = new();
-            string newId = "";
-            for (int i = 0; i < 9; i++)
-            {
-                newId += glyphs[Random.Range(0, glyphs.Length)];
-            }
-            newData.secretId = newId;
-            WoogieScrObj newWoogie = Resources.Load("Woogies/" + woogie.name) as WoogieScrObj;
-            newData.woogie = new WoogieSave(newWoogie.number, newWoogie.woogieName, newWoogie.icon, newWoogie.typing, newWoogie.natures, newWoogie.ability, newWoogie.stats, newWoogie.levelCurve, newWoogie.evolveLevel, newWoogie.attackUnlocks);
-            AttackScrObj[] moves = new AttackScrObj[4];
-            for (int i = 0; i < woogie.attackUnlocks.Length && i < 4; i++)
-            {
-                if (woogie.attackUnlocks[i].levelUnlocked == 0)
-                {
-                    moves[i] = woogie.attackUnlocks[i].attack;
-                }
-                else
-                    break;
-            }
-            newData.woogieAttacks = moves;
-            newData.xp = 0;
-            foreach(NatureScrObj nature in woogie.natures)
-            {
-                newData.nature = nature;
-            }
-            newData.health = 10;
-            newData.attack = 9;
-            newData.defence = 8;
-            newData.sp_attack = 7;
-            newData.sp_defence = 6;
-            newData.speed = 5;
-            SaveWoogie(newData);
-        }
-        public void SaveWoogie(WoogieData data)
-        {
-            string json = JsonUtility.ToJson(data, true);
-            SavingUtils.WriteToFile(data.woogie.woogieName + data.secretId + ".json", json, "/Woogies");
+            string json = JsonUtility.ToJson(woogie, true);
+            SavingUtils.WriteToFile(woogie.woogieScrObjName + "_" + woogie.secretId + ".json", json, "/Woogies");
         }
         public void LoadWoogies()
         {
             foreach (string s in SavingUtils.GetAllDataFileNames())
             {
-                WoogieData data = new();
+                WoogieSave woogie = new();
                 string json = SavingUtils.ReadFromFile(s, "/Woogies");
-                JsonUtility.FromJsonOverwrite(json, data);
+                JsonUtility.FromJsonOverwrite(json, woogie);
                 GameObject newDataHolder = Instantiate(woogieDataHolderPrefab, woogieHolder);
-                newDataHolder.GetComponent<WoogieDataHolder>().SetUp(data);
+                newDataHolder.GetComponent<WoogieSaveHolder>().SetUp(woogie);
             }
         }
     }

@@ -29,6 +29,8 @@ public class PacksManager : MonoBehaviour
     public Transform cardHolder;
     public GameObject cardPrefab;
 
+    private const string glyphs = "abcdefghijklmnopqrstovwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+
     private void Awake()
     {
         List<PackTabInfo> tabInfos = new();
@@ -115,11 +117,54 @@ public class PacksManager : MonoBehaviour
         for (int i = 0; i < currentPack.itemsInPack; i++)
         {
             Random.InitState((int)System.DateTime.Now.Ticks);
-            WoogieScrObj woogie = currentPack.woogies[Random.Range(0, currentPack.woogies.Length)];
-            GameObject newCard = Instantiate(cardPrefab, cardHolder);
-            newCard.GetComponent<CardHolder>().SetUp(woogie);
+            //Getting random possible woogie from pack
+            WoogieScrObj woogieScrObj = currentPack.woogies[Random.Range(0, currentPack.woogies.Length)];
+            //Settings stats
+            WoogieSave woogie = new();
+            //Getting a secret ID
+            string newId = "";
+            for (int s = 0; s < 9; s++)
+            {
+                newId += glyphs[Random.Range(0, glyphs.Length)];
+            }
+            woogie.secretId = newId;
+            woogie.woogieScrObjName = woogieScrObj.name;
+            woogie.individualStats = RandomStats(0, 31);
+            woogie.natureScrObjName = woogieScrObj.possibleNatures[Random.Range(0, woogieScrObj.possibleNatures.Length)].name;
+            woogie.abilitie = woogieScrObj.possibleAbilities[Random.Range(0, woogieScrObj.possibleAbilities.Length)];
+            //Getting the base attacks
+            string[] currentAttacksScrObjs = new string[4];
+            for (int a = 0; a < woogieScrObj.attackUnlocks.Length && a < 4; a++)
+            {
+                if (woogieScrObj.attackUnlocks[a].levelUnlocked == 0)
+                {
+                    currentAttacksScrObjs[a] = woogieScrObj.attackUnlocks[a].possibleAttack[Random.Range(0, woogieScrObj.attackUnlocks[a].possibleAttack.Length)].name;
+                }
+                else
+                    break;
+            }
+            woogie.selectedAttacksScrObjNames = currentAttacksScrObjs;
+            woogie.currentLevel = Random.Range(currentPack.minLevel, currentPack.maxLevel + 1);
+            woogie.shiny = Random.Range(0, currentPack.shinyChance) == 0;
 
-            Scripts.UI.MainMenu.Inventory.InventoryManager.Instance.SaveNewWoogie(woogie);
+            GameObject newCard = Instantiate(cardPrefab, cardHolder);
+            newCard.GetComponent<CardHolder>().SetUp(woogie, woogieScrObj);
+
+            Scripts.UI.MainMenu.Inventory.InventoryManager.Instance.SaveWoogie(woogie);
         }
     }
+    public Stats RandomStats(int minStat = 0, int maxStat = 0)
+    {
+        Stats randomStats = new();
+        maxStat++;
+        randomStats.hp = Random.Range(minStat, maxStat);
+        randomStats.att = Random.Range(minStat, maxStat);
+        randomStats.def = Random.Range(minStat, maxStat);
+        randomStats.s_att = Random.Range(minStat, maxStat);
+        randomStats.s_def = Random.Range(minStat, maxStat);
+        randomStats.spd = Random.Range(minStat, maxStat);
+
+        return randomStats;
+    }
+
 }
