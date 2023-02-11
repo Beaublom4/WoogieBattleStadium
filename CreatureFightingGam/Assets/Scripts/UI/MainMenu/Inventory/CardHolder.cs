@@ -7,13 +7,14 @@ using TMPro;
 public class CardHolder : MonoBehaviour
 {
     public Image iconImage;
+    public Image cardRarity;
     public TMP_Text nameText;
     public TMP_Text statsText;
     [Space]
     public GameObject typingPrefab;
     public Transform typingHolder;
 
-    public void SetUp(WoogieSave woogieSave, WoogieScrObj woogieScrObj)
+    public void SetUp(WoogieSave woogieSave, WoogieScrObj woogieScrObj, Color rarity)
     {
         iconImage.sprite = woogieScrObj.icon;
         nameText.text = woogieScrObj.woogieName;
@@ -33,6 +34,8 @@ public class CardHolder : MonoBehaviour
             newType.GetComponentInChildren<TMP_Text>().text = type.typeName;
             newType.GetComponent<Image>().color = type.typeColor;
         }
+
+        cardRarity.color = rarity;
     }
     public void SelectCard()
     {

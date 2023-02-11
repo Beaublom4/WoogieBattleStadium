@@ -9,12 +9,20 @@ public class PackScrObj : ScriptableObject
     public string packType;
     public int itemsInPack;
     public int minLevel, maxLevel;
-    public int shinyChance = 4069;
+    [Tooltip("-1 = never, 0 = default(4069), 1 = always, > 1 = chance")]
+    public int shinyChance = 0;
     [Space]
     public int packCoinCost;
     public int packMoneyCost;
 
-    public WoogieScrObj[] woogies;
+    public WoogieRarityDrops[] drops;
     public AttackScrObj[] attacks;
     //Items in packs
+}
+[System.Serializable]
+public struct WoogieRarityDrops
+{
+    public CardRarity rarity;
+    public float dropChance;
+    public WoogieScrObj[] woogieScrObjs;
 }

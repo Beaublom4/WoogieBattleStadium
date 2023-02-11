@@ -6,4 +6,5 @@ public struct Account
     public int accountXp;
     public int accountCoins;
     public int accountMoney;
+    public WoogieSave[] team;
 }

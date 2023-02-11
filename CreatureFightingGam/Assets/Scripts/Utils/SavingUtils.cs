@@ -8,12 +8,10 @@ public static class SavingUtils
     public static void WriteToFile(string fileName, string json, string directory)
     {
         string path = GetFilePath(fileName, directory);
-        FileStream fileStream = new FileStream(path, FileMode.Create);
+        FileStream fileStream = new(path, FileMode.Create);
 
-        using (StreamWriter writer = new StreamWriter(fileStream))
-        {
-            writer.Write(json);
-        }
+        using StreamWriter writer = new(fileStream);
+        writer.Write(json);
     }
     public static string GetFilePath(string fileName, string directory)
     {
@@ -26,11 +24,9 @@ public static class SavingUtils
         string path = GetFilePath(fileName, directory);
         if (File.Exists(path))
         {
-            using (StreamReader reader = new StreamReader(path))
-            {
-                string json = reader.ReadToEnd();
-                return json;
-            }
+            using StreamReader reader = new(path);
+            string json = reader.ReadToEnd();
+            return json;
         }
         else
             Debug.LogWarning("File not found");
@@ -45,5 +41,11 @@ public static class SavingUtils
             files[i] = Path.GetFileName(files[i]);
         }
         return files;
+    }
+
+    public static void SaveWoogie(WoogieSave woogie)
+    {
+        string json = JsonUtility.ToJson(woogie, true);
+        WriteToFile(woogie.woogieScrObjName + "_" + woogie.secretId + ".json", json, "/Woogies");
     }
 }

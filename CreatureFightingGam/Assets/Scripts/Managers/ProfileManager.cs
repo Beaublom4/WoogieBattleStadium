@@ -19,33 +19,71 @@ public class ProfileManager : MonoBehaviour
     public TMP_Text levelText;
     public int xp;
     public Slider xpSlider;
-
+    [Space]
+    public WoogieScrObj[] starters;
+    public GameObject[] starterButtons;
+    [Space]
     public GameObject menuCreatePanel;
+    public GameObject nameCreatePanel;
     public TMP_InputField nameInput;
+    [Space]
+    public GameObject starterSelectPanel;
+    public TMP_Text typingDisplay;
+
+    private WoogieScrObj selectedWoogie;
 
     private void Awake()
     {
         Instance = this;
-    }
-    private void Start()
-    {
+
         if (File.Exists(SavingUtils.GetFilePath("Profile.json", "/Account")))
         {
+            menuCreatePanel.SetActive(false);
             LoadAccount();
         }
         else
         {
             menuCreatePanel.SetActive(true);
+            nameCreatePanel.SetActive(true);
+            starterSelectPanel.SetActive(false);
         }
+    }
+    public void ContinueToStarterSelect()
+    {
+        if (string.IsNullOrEmpty(nameInput.text) || nameInput.text == "")
+            return;
+        nameCreatePanel.SetActive(false);
+        typingDisplay.text = "";
+        for (int i = 0; i < starterButtons.Length; i++)
+        {
+            starterButtons[i].GetComponentInChildren<Image>().sprite = starters[i].icon;
+            starterButtons[i].GetComponentInChildren<TMP_Text>().text = starters[i].woogieName;
+        }
+        starterSelectPanel.SetActive(true);
+    }
+    public void SelectStarter(WoogieScrObj woogieScrObj)
+    {
+        selectedWoogie = woogieScrObj;
+        typingDisplay.text = $"{woogieScrObj.woogieName} the {woogieScrObj.typing[0].typeName} type woogie";
     }
     public void CreateAccount()
     {
+        if (selectedWoogie == null)
+            return;
+
+        //Creating account
         Account account = new();
         account.accountName = nameInput.text;
         account.accountLevel = 1;
+        account.team = new WoogieSave[4];
 
+        //Saving account
         string json = JsonUtility.ToJson(account);
         SavingUtils.WriteToFile("Profile.json", json, "/Account");
+
+        //Creating starter woogie
+        WoogieSave woogie = WoogieUtils.CreateNewWoogie(selectedWoogie, 5, 5, 0);
+        SavingUtils.SaveWoogie(woogie);
 
         LoadAccount();
         menuCreatePanel.SetActive(false);
@@ -66,6 +104,13 @@ public class ProfileManager : MonoBehaviour
         coinsText.text = coins.ToString();
         money = account.accountMoney;
         moneyText.text = money.ToString();
+
+        for (int i = 0; i < TeamManager.Instance.selectedWoogies.Length; i++)
+        {
+            TeamManager.Instance.selectedWoogies[i] = account.team[i];
+        }
+        TeamManager.Instance.ShowDisplayFromSlot(0);
+        TeamManager.Instance.UpdateSlots();
     }
     public void SaveAccount()
     {
@@ -75,6 +120,7 @@ public class ProfileManager : MonoBehaviour
         account.accountXp = xp;
         account.accountCoins = coins;
         account.accountMoney = money;
+        account.team = TeamManager.Instance.selectedWoogies;
 
         string json = JsonUtility.ToJson(account, true);
         SavingUtils.WriteToFile("Profile.json", json, "/Account");

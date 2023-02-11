@@ -24,7 +24,7 @@ public class WoogieSave
     public Stats individualStats;
     public Stats EffortStats;
     public string natureScrObjName;
-    public Ability abilitie;
+    public Ability ability;
     public string[] selectedAttacksScrObjNames;
     public int currentLevel;
     public int currentXp;

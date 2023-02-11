@@ -25,11 +25,10 @@ public class PacksManager : MonoBehaviour
     public GameObject packTabButton;
     public GameObject packsHolder;
     public GameObject packPrefab;
+    private float waitTime = .2f;
     [Space]
     public Transform cardHolder;
     public GameObject cardPrefab;
-
-    private const string glyphs = "abcdefghijklmnopqrstovwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
 
     private void Awake()
     {
@@ -114,57 +113,73 @@ public class PacksManager : MonoBehaviour
         {
             Destroy(t.gameObject);
         }
+        Scripts.UI.MainMenu.MainMenuManager.Instance.StartCoroutine(PackOpening());
+    }
+    IEnumerator PackOpening()
+    {
+        //Getting woogies from a pack
+        List<DroppedWoogie> droppedWoogies = new();
+        Random.InitState((int)System.DateTime.Now.Ticks);
         for (int i = 0; i < currentPack.itemsInPack; i++)
         {
-            Random.InitState((int)System.DateTime.Now.Ticks);
-            //Getting random possible woogie from pack
-            WoogieScrObj woogieScrObj = currentPack.woogies[Random.Range(0, currentPack.woogies.Length)];
-            //Settings stats
-            WoogieSave woogie = new();
-            //Getting a secret ID
-            string newId = "";
-            for (int s = 0; s < 9; s++)
+            //Getting random rarity for next woogie
+            float currentDropRarity = Random.Range(0f, 100f);
+
+            //Getting an array form all the woogies in that rarity
+            WoogieRarityDrops drops = new();
+            for (int r = 0; r < currentPack.drops.Length; r++)
             {
-                newId += glyphs[Random.Range(0, glyphs.Length)];
-            }
-            woogie.secretId = newId;
-            woogie.woogieScrObjName = woogieScrObj.name;
-            woogie.individualStats = RandomStats(0, 31);
-            woogie.natureScrObjName = woogieScrObj.possibleNatures[Random.Range(0, woogieScrObj.possibleNatures.Length)].name;
-            woogie.abilitie = woogieScrObj.possibleAbilities[Random.Range(0, woogieScrObj.possibleAbilities.Length)];
-            //Getting the base attacks
-            string[] currentAttacksScrObjs = new string[4];
-            for (int a = 0; a < woogieScrObj.attackUnlocks.Length && a < 4; a++)
-            {
-                if (woogieScrObj.attackUnlocks[a].levelUnlocked == 0)
+                if(currentDropRarity <= currentPack.drops[r].dropChance)
                 {
-                    currentAttacksScrObjs[a] = woogieScrObj.attackUnlocks[a].possibleAttack[Random.Range(0, woogieScrObj.attackUnlocks[a].possibleAttack.Length)].name;
+                    drops = currentPack.drops[r];
                 }
                 else
+                {
                     break;
+                }
             }
-            woogie.selectedAttacksScrObjNames = currentAttacksScrObjs;
-            woogie.currentLevel = Random.Range(currentPack.minLevel, currentPack.maxLevel + 1);
-            woogie.shiny = Random.Range(0, currentPack.shinyChance) == 0;
 
+            //Getting a woogie from the array above
+            WoogieScrObj woogieScrObj = drops.woogieScrObjs[Random.Range(0, drops.woogieScrObjs.Length)];
+            //Creating random stats for that woogie
+            WoogieSave woogieSave = WoogieUtils.CreateNewWoogie(woogieScrObj, currentPack.minLevel, currentPack.maxLevel, currentPack.shinyChance);
+
+            //Adding woogie to a list with all the dropped woogies;
+            DroppedWoogie newWoogie = new();
+            newWoogie.woogieSave = woogieSave;
+            newWoogie.woogieScrObj = woogieScrObj;
+            newWoogie.rarity = drops.rarity;
+            droppedWoogies.Add(newWoogie);
+        }
+        //sort the list above to rarity
+        CardRarity[] rarities = Resources.LoadAll<CardRarity>("CardRarities");
+        if (rarities.Length == 0)
+            yield return null;
+        List<DroppedWoogie> sortedDroppedWoogies = new();
+        foreach (CardRarity raritie in rarities) 
+        {
+            foreach (DroppedWoogie dropWoogie in droppedWoogies)
+            {
+                if (dropWoogie.rarity == raritie)
+                {
+                    sortedDroppedWoogies.Add(dropWoogie);
+                }
+            }
+        }
+        //Display all woogies sorted in rarity
+        for (int i = 0; i < sortedDroppedWoogies.Count; i++)
+        {
             GameObject newCard = Instantiate(cardPrefab, cardHolder);
-            newCard.GetComponent<CardHolder>().SetUp(woogie, woogieScrObj);
+            newCard.GetComponent<CardHolder>().SetUp(sortedDroppedWoogies[i].woogieSave, sortedDroppedWoogies[i].woogieScrObj, sortedDroppedWoogies[i].rarity.rarityColor);
 
-            Scripts.UI.MainMenu.Inventory.InventoryManager.Instance.SaveWoogie(woogie);
+            SavingUtils.SaveWoogie(sortedDroppedWoogies[i].woogieSave);
+            yield return new WaitForSeconds(waitTime);
         }
     }
-    public Stats RandomStats(int minStat = 0, int maxStat = 0)
-    {
-        Stats randomStats = new();
-        maxStat++;
-        randomStats.hp = Random.Range(minStat, maxStat);
-        randomStats.att = Random.Range(minStat, maxStat);
-        randomStats.def = Random.Range(minStat, maxStat);
-        randomStats.s_att = Random.Range(minStat, maxStat);
-        randomStats.s_def = Random.Range(minStat, maxStat);
-        randomStats.spd = Random.Range(minStat, maxStat);
-
-        return randomStats;
-    }
-
+}
+public struct DroppedWoogie
+{
+    public WoogieSave woogieSave;
+    public WoogieScrObj woogieScrObj;
+    public CardRarity rarity;
 }

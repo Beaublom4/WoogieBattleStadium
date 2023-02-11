@@ -8,6 +8,7 @@ namespace Scripts.UI.MainMenu.Inventory
     public class InventoryManager : MonoBehaviour
     {
         public static InventoryManager Instance;
+        private bool setUp;
 
         public TMP_Text toggleStats_AttacksText;
         public GameObject statsObj, attacksObj;
@@ -17,6 +18,7 @@ namespace Scripts.UI.MainMenu.Inventory
         private int currentMenu;
         public Color normalButtonColor, selectedButtonColor;
         public Transform menuButtonHolder;
+        public Transform teamTabButton;
 
         [Header("Woogies")]
         public Transform woogieHolder;
@@ -32,6 +34,13 @@ namespace Scripts.UI.MainMenu.Inventory
         private void Awake()
         {
             Instance = this;
+
+            foreach (InventoryHolderType menu in menus)
+            {
+                menu.gameObject.SetActive(true);
+            }
+
+            setUp = true;
         }
         private void Start()
         {
@@ -40,6 +49,9 @@ namespace Scripts.UI.MainMenu.Inventory
         }
         public void OnEnable()
         {
+            if (!setUp)
+                return;
+
             selectedWoogie = null;
             foreach (GameObject s in sideBars)
                 s.SetActive(false);
@@ -66,7 +78,9 @@ namespace Scripts.UI.MainMenu.Inventory
         }
         public void SwitchWoogie()
         {
-            
+            MainMenuManager.Instance.SwitchMenu("team");
+            MainMenuManager.Instance.SelectMenuButton(teamTabButton);
+            TeamManager.Instance.SwitchWoogie(selectedWoogie);
         }
         public void SwitchMenu(string menuType)
         {
@@ -121,14 +135,8 @@ namespace Scripts.UI.MainMenu.Inventory
             statsText.text += "<br>Sp. Def: " + CalculationUtils.StatCaclulation(woogieScrObj.baseStats.s_def, woogie.individualStats.att, woogie.EffortStats.att, woogie.currentLevel, natureScrObj.sp_def);
             statsText.text += "<br>Speed: " + CalculationUtils.StatCaclulation(woogieScrObj.baseStats.spd, woogie.individualStats.att, woogie.EffortStats.att, woogie.currentLevel, natureScrObj.speed);
             //Display Ability
-            ability.text = "Ability: " + woogie.abilitie;
+            ability.text = "Ability: " + woogie.ability;
             abilityDiscription.text = "Ability discription";
-        }
-
-        public void SaveWoogie(WoogieSave woogie)
-        {
-            string json = JsonUtility.ToJson(woogie, true);
-            SavingUtils.WriteToFile(woogie.woogieScrObjName + "_" + woogie.secretId + ".json", json, "/Woogies");
         }
         public void LoadWoogies()
         {
@@ -137,6 +145,18 @@ namespace Scripts.UI.MainMenu.Inventory
                 WoogieSave woogie = new();
                 string json = SavingUtils.ReadFromFile(s, "/Woogies");
                 JsonUtility.FromJsonOverwrite(json, woogie);
+
+                bool isTeamPosition = false;
+                foreach(WoogieSave save in TeamManager.Instance.selectedWoogies)
+                {
+                    if (save.secretId == woogie.secretId)
+                        isTeamPosition = true;
+                }
+                if (isTeamPosition)
+                {
+                    continue;
+                }
+
                 GameObject newDataHolder = Instantiate(woogieDataHolderPrefab, woogieHolder);
                 newDataHolder.GetComponent<WoogieSaveHolder>().SetUp(woogie);
             }

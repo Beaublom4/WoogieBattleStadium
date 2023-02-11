@@ -20,8 +20,19 @@ MonoBehaviour:
   shinyChance: 4069
   packCoinCost: 5000
   packMoneyCost: 250
-  woogies:
-  - {fileID: 11400000, guid: 24067264213db4c42a538db8c49a79d0, type: 2}
-  - {fileID: 11400000, guid: 8cd909640c325424d8105f285465fcae, type: 2}
-  - {fileID: 11400000, guid: 922f27c4a241089478f8a17ba592d621, type: 2}
+  drops:
+  - rarity: {fileID: 11400000, guid: 1af4be890f716e046999c30abf7ebbd2, type: 2}
+    dropChance: 100
+    woogieScrObjs:
+    - {fileID: 11400000, guid: 24067264213db4c42a538db8c49a79d0, type: 2}
+    - {fileID: 11400000, guid: ab5811f6d6a198b4f8cb6eceaa2b47c7, type: 2}
+    - {fileID: 11400000, guid: 8cd909640c325424d8105f285465fcae, type: 2}
+  - rarity: {fileID: 11400000, guid: a47359f446bb2e145bcfdc5cc9f77ad7, type: 2}
+    dropChance: 5
+    woogieScrObjs:
+    - {fileID: 11400000, guid: d4f9475e813a08f459b0ab869eda9f08, type: 2}
+  - rarity: {fileID: 11400000, guid: 99c1f39bd7f37214ebe998ed4db04e60, type: 2}
+    dropChance: 0.5
+    woogieScrObjs:
+    - {fileID: 11400000, guid: 922f27c4a241089478f8a17ba592d621, type: 2}
   attacks: []
