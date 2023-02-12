@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49e3dd8c41f81f943a109ba6efcbe408, type: 3}
-  m_Name: 001_strike
+  m_Name: ScratchATCK
   m_EditorClassIdentifier: 
-  attackName: Strike
+  attackName: Scratch
   attackEffect: 
   vfx: {fileID: 32498643181729698, guid: a0194637fd4f6834f8e98a64445e4121, type: 3}
   type: {fileID: 11400000, guid: 39e4c1355f0b4f74b8d913c552fa047d, type: 2}
-  uses: 30
-  damage: 40
-  accuracy: 85
+  uses: 0
+  damage: 0
+  accuracy: 0
   category: 0
   priority: 0
   frozen: 0
