@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   woogieName: Myrmec
   icon: {fileID: 21300000, guid: 3a0c527d7f890d64a9b56b086e6e766a, type: 3}
+  prefab: {fileID: 6135100871345543504, guid: e7d9fa7ff9ea1314eae6f8ed4911227c, type: 3}
   typing:
   - {fileID: 11400000, guid: 779209cc51538774296b2467db4cda34, type: 2}
   possibleNatures:
@@ -25,12 +26,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dd48a2c9589424d4e8f932ddcdc773d7, type: 2}
   possibleAbilities: 0000000001000000
   baseStats:
-    hp: 1
-    att: 2
-    def: 3
-    s_att: 4
-    s_def: 5
-    spd: 6
+    hp: 45
+    att: 45
+    def: 55
+    s_att: 45
+    s_def: 55
+    spd: 63
   levelCurve: {fileID: 11400000, guid: b9b23cdd298b66544a8f50dcc78feb9e, type: 2}
   evolveLevel: 31
   evolution: {fileID: 11400000, guid: 6492ccccfe774c942b021918864759a3, type: 2}
@@ -38,3 +39,6 @@ MonoBehaviour:
   - levelUnlocked: 0
     possibleAttack:
     - {fileID: 11400000, guid: c8795a5a083de50428313c4733851d5d, type: 2}
+  - levelUnlocked: 0
+    possibleAttack:
+    - {fileID: 11400000, guid: 98c4809fd3d5e694ba19d334c940cefd, type: 2}

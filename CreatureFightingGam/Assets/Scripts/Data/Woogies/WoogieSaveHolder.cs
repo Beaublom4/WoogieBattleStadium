@@ -11,6 +11,7 @@ namespace Scripts.UI.MainMenu.Inventory
         public TMP_Text displayName;
         public Image displayImage;
         public TMP_Text levelDisplay;
+        public GameObject shinyPreview;
 
         public WoogieSave woogieSave;
 
@@ -21,10 +22,11 @@ namespace Scripts.UI.MainMenu.Inventory
             displayName.text = woogieScrObj.woogieName;
             displayImage.sprite = woogieScrObj.icon;
             levelDisplay.text = "Lv: " + woogieSave.currentLevel.ToString();
+            if (woogie.shiny) shinyPreview.SetActive(true);
         }
         public void SelectData()
         {
-            InventoryManager.Instance.SelectData(woogieSave);
+            InventoryManager.Instance.SelectData(woogieSave, gameObject);
         }
     }
 }

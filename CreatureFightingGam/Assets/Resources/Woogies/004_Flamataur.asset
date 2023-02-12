@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   woogieName: Flamataur
   icon: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
+  prefab: {fileID: 927200469599968846, guid: 48e9a682037e3d447b53a490b2dce91e, type: 3}
   typing:
   - {fileID: 11400000, guid: ea10d7ab689dbc143b34af68651e1dd7, type: 2}
   possibleNatures:
@@ -25,16 +26,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dd48a2c9589424d4e8f932ddcdc773d7, type: 2}
   possibleAbilities: 0000000001000000
   baseStats:
-    hp: 1
-    att: 2
-    def: 3
-    s_att: 4
-    s_def: 5
-    spd: 6
+    hp: 65
+    att: 63
+    def: 45
+    s_att: 45
+    s_def: 45
+    spd: 45
   levelCurve: {fileID: 11400000, guid: b9b23cdd298b66544a8f50dcc78feb9e, type: 2}
   evolveLevel: 31
   evolution: {fileID: 11400000, guid: 6492ccccfe774c942b021918864759a3, type: 2}
   attackUnlocks:
   - levelUnlocked: 0
     possibleAttack:
-    - {fileID: 11400000, guid: c8795a5a083de50428313c4733851d5d, type: 2}
+    - {fileID: 11400000, guid: a0d245fb94cbc654d93647bc275e5fd6, type: 2}
+  - levelUnlocked: 0
+    possibleAttack:
+    - {fileID: 11400000, guid: 98c4809fd3d5e694ba19d334c940cefd, type: 2}

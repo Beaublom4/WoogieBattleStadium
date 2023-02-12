@@ -19,6 +19,7 @@ namespace Scripts.UI.MainMenu.Inventory
         public Color normalButtonColor, selectedButtonColor;
         public Transform menuButtonHolder;
         public Transform teamTabButton;
+        private GameObject latestSelectedDataButton;
 
         [Header("Woogies")]
         public Transform woogieHolder;
@@ -30,6 +31,9 @@ namespace Scripts.UI.MainMenu.Inventory
         public TMP_Text nature;
         public TMP_Text statsText;
         public TMP_Text ability, abilityDiscription;
+        [Header("Attacks")]
+        public Transform attackHolder;
+        public GameObject attackPrefab;
 
         private void Awake()
         {
@@ -109,8 +113,13 @@ namespace Scripts.UI.MainMenu.Inventory
             }
         }
 
-        public void SelectData(WoogieSave woogie)
+        public void SelectData(WoogieSave woogie, GameObject button)
         {
+            button.GetComponent<Image>().color = selectedButtonColor;
+            if(latestSelectedDataButton != null)
+                latestSelectedDataButton.GetComponent<Image>().color = normalButtonColor;
+            latestSelectedDataButton = button;
+
             sideBars[currentMenu].SetActive(true);
             selectedWoogie = woogie;
             WoogieScrObj woogieScrObj = Resources.Load<WoogieScrObj>("Woogies/" + woogie.woogieScrObjName);
@@ -137,6 +146,22 @@ namespace Scripts.UI.MainMenu.Inventory
             //Display Ability
             ability.text = "Ability: " + woogie.ability;
             abilityDiscription.text = "Ability discription";
+            //Display Attacks
+            foreach (Transform t in attackHolder)
+                Destroy(t.gameObject);
+            foreach (string attack in woogie.selectedAttacksScrObjNames)
+            {
+                GameObject newAttack = Instantiate(attackPrefab, attackHolder);
+                if (!string.IsNullOrEmpty(attack))
+                {
+                    AttackScrObj attackScrObj = Resources.Load<AttackScrObj>("Attacks/" + attack);
+                    newAttack.GetComponent<AttackHolder>().SetUp(attackScrObj);
+                }
+                else
+                {
+                    newAttack.GetComponent<AttackHolder>().SetUp(null);
+                }
+            }
         }
         public void LoadWoogies()
         {

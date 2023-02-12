@@ -25,7 +25,7 @@ public class PacksManager : MonoBehaviour
     public GameObject packTabButton;
     public GameObject packsHolder;
     public GameObject packPrefab;
-    private float waitTime = .2f;
+    private readonly float waitTime = .2f;
     [Space]
     public Transform cardHolder;
     public GameObject cardPrefab;
@@ -87,7 +87,7 @@ public class PacksManager : MonoBehaviour
         packNameText.text = pack.packName;
         coinsAmountText.text = $"Buy with {pack.packCoinCost} coins";
         moneyAmountText.text = $"Buy with {pack.packMoneyCost} money";
-        Scripts.UI.MainMenu.MainMenuManager.Instance.SwitchMenu("packConfirm");
+        MainMenuManager.Instance.SwitchMenu("packConfirm");
     }
     public void ConfirmWithCoins()
     {
@@ -107,13 +107,13 @@ public class PacksManager : MonoBehaviour
     }
     public void GetItems()
     {
-        Scripts.UI.MainMenu.MainMenuManager.Instance.SwitchMenu("pack");
+        MainMenuManager.Instance.SwitchMenu("pack");
 
         foreach(Transform t in cardHolder)
         {
             Destroy(t.gameObject);
         }
-        Scripts.UI.MainMenu.MainMenuManager.Instance.StartCoroutine(PackOpening());
+        MainMenuManager.Instance.StartCoroutine(PackOpening());
     }
     IEnumerator PackOpening()
     {

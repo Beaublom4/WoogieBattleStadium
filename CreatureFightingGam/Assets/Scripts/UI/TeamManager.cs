@@ -9,6 +9,8 @@ public class TeamManager : MonoBehaviour
 {
     public static TeamManager Instance;
 
+    public static WoogieSave[] team = new WoogieSave[4];
+
     public WoogieSave[] selectedWoogies = new WoogieSave[4];
     public GameObject[] slotsButtons;
     public Image[] playScreenTeam;
@@ -201,5 +203,9 @@ public class TeamManager : MonoBehaviour
                 newAttack.GetComponent<AttackHolder>().SetUp(null);
             }
         }
+    }
+    public void SelectTeam()
+    {
+        team = selectedWoogies;
     }
 }

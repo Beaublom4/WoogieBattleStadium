@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49e3dd8c41f81f943a109ba6efcbe408, type: 3}
-  m_Name: 002_swift_strike
+  m_Name: 003_Debug
   m_EditorClassIdentifier: 
-  attackName: Swift Strike
-  attackEffect: Attack always goes first
-  vfx: {fileID: 9438766783278644, guid: 7a7333d9ef1603a4e91d0031a376fbb1, type: 3}
+  attackName: Debug
+  attackEffect: Test
+  vfx: {fileID: 4292224796591905673, guid: 2d544d32373fd45419bdfdd824ffdf24, type: 3}
   type: {fileID: 11400000, guid: 39e4c1355f0b4f74b8d913c552fa047d, type: 2}
-  uses: 25
-  damage: 20
+  uses: 100
+  damage: 300
   accuracy: 100
   category: 0
   priority: 1

@@ -105,6 +105,7 @@ public class ProfileManager : MonoBehaviour
         money = account.accountMoney;
         moneyText.text = money.ToString();
 
+        if (TeamManager.Instance == null) TeamManager.Instance = FindObjectOfType<TeamManager>(true);
         for (int i = 0; i < TeamManager.Instance.selectedWoogies.Length; i++)
         {
             TeamManager.Instance.selectedWoogies[i] = account.team[i];

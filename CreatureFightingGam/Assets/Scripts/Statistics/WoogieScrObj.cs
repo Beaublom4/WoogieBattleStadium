@@ -7,6 +7,7 @@ public class WoogieScrObj : ScriptableObject
 {
     public string woogieName;
     public Sprite icon;
+    public GameObject prefab;
     public TypingScrObj[] typing;
     public NatureScrObj[] possibleNatures;
     public Ability[] possibleAbilities;
