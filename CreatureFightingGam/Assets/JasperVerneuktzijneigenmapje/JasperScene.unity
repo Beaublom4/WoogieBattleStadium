@@ -2403,7 +2403,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh30168
+  m_Name: pb_Mesh29714
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2682,7 +2682,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh30190
+  m_Name: pb_Mesh29736
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2910,11 +2910,6 @@ PrefabInstance:
     - target: {fileID: 9024635359376834325, guid: a0194637fd4f6834f8e98a64445e4121,
         type: 3}
       propertyPath: m_ResetSeedOnPlay
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9024635359376834325, guid: a0194637fd4f6834f8e98a64445e4121,
-        type: 3}
-      propertyPath: m_InitialEventNameOverriden
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
